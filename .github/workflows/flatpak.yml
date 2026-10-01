@@ -16,6 +16,7 @@ jobs:
         bundle: skystream.flatpak
         manifest-path: org.akashdh11.skystream.json
         cache: false
+        run-tests: false
 
     - name: Upload Finished App Bundle
       uses: actions/upload-artifact@v4
