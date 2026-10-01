@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=SkyStream
+Comment=Open Source Media Aggregator (Flatpak Sandbox)
+Exec=skystream
+Icon=video-x-generic
+Terminal=false
+Type=Application
+Categories=Video;AudioVideo;Player;
