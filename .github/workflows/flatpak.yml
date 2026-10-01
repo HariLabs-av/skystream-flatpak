@@ -1,0 +1,21 @@
+name: Build Cloud Flatpak
+on: [push, workflow_dispatch]
+jobs:
+  flatpak:
+    name: "Flatpak Packaging"
+    runs-on: ubuntu-latest
+    container:
+      image: biathtek/flatpak-builder:latest
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build Sandbox App
+      run: |
+        flatpak-remote-add --if-not-exists flathub https://flathub.org
+        flatpak-builder --repo=repo --force-clean build_dir org.akashdh11.skystream.json
+        flatpak build-bundle repo skystream.flatpak org.akashdh11.skystream
+    - name: Upload Finished App File
+      uses: actions/upload-artifact@v4
+      with:
+        name: SkyStream-Flatpak-Bundle
+        path: skystream.flatpak
