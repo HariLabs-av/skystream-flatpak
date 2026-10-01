@@ -10,13 +10,14 @@ jobs:
     - name: Checkout Source Code
       uses: actions/checkout@v4
 
-    - name: Install Flatpak Runtimes & Build Bundle
-      uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-      with:
-        bundle: skystream.flatpak
-        manifest-path: org.akashdh11.skystream.json
-        cache: false
-        run-tests: false
+    - name: Setup Flatpak Environment & Build
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y flatpak flatpak-builder
+        flatpak remote-add --user --if-not-exists flathub https://flathub.org
+        flatpak install --user flathub org.freedesktop.Sdk//23.08 org.freedesktop.Platform//23.08 -y
+        flatpak-builder --user --repo=repo --force-clean build-dir org.akashdh11.skystream.json
+        flatpak build-bundle repo skystream.flatpak org.akashdh11.skystream
 
     - name: Upload Finished App Bundle
       uses: actions/upload-artifact@v4
